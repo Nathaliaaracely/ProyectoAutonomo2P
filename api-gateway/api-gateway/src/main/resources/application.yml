@@ -1,0 +1,71 @@
+server:
+  port: 8081  # Puerto diferente al backend REST
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: api-gateway
+  
+  # Configuración de GraphQL
+  graphql:
+    graphiql:
+      enabled: true  # Habilita la interfaz GraphiQL
+      path: /graphiql
+    schema:
+      printer:
+        enabled: true
+      locations: classpath:graphql/
+      file-extension: graphqls
+  
+  # Configuración del cliente WebClient para los servicios REST
+  webflux:
+    base-path: /api
+  
+  # Configuración de los servicios backend
+  cloud:
+    gateway:
+      routes:
+        - id: donaciones-service
+          uri: http://localhost:8080  # Servicio principal
+          predicates:
+            - Path=/api/donaciones/**
+          filters:
+            - StripPrefix=1
+        - id: donantes-service
+          uri: http://localhost:8082  # Puerto para servicio de donantes
+          predicates:
+            - Path=/api/donantes/**
+          filters:
+            - StripPrefix=1
+        - id: productos-service
+          uri: http://localhost:8083  # Puerto para servicio de productos
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - StripPrefix=1
+        - id: receptores-service
+          uri: http://localhost:8084  # Puerto para servicio de receptores
+          predicates:
+            - Path=/api/receptores/**
+          filters:
+            - StripPrefix=1
+        - id: entregas-service
+          uri: http://localhost:8085  # Puerto para servicio de entregas
+          predicates:
+            - Path=/api/entregas/**
+          filters:
+            - StripPrefix=1
+
+# Configuración de logging para desarrollo
+logging:
+  level:
+    root: INFO
+    org.springframework.graphql: DEBUG
+    com.bancodealimentos: DEBUG
+    org.springframework.web.reactive: DEBUG
+
+donaciones:
+  service:
+    url: http://localhost:8081/api/v1
+    timeout: 5000

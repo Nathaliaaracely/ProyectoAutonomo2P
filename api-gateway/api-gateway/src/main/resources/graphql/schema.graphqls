@@ -1,0 +1,83 @@
+# Tipos principales
+type Query {
+  # Consultas de donaciones
+  donaciones: [Donacion!]!
+  donacion(id: ID!): Donacion
+  
+  # Consultas de donantes
+  donantes: [Donante!]!
+  donante(id: ID!): Donante
+  
+  # Consultas de productos donados
+  productosDonados: [ProductoDonado!]!
+  productoDonado(id: ID!): ProductoDonado
+  
+  # Consultas de receptores
+  receptores: [Receptor!]!
+  receptor(id: ID!): Receptor
+  
+  # Consultas de registros de entrega
+  registrosEntrega: [RegistroEntrega!]!
+  registroEntrega(id: ID!): RegistroEntrega
+}
+
+type Mutation {
+  # Mutaciones para donaciones
+  crearDonacion(input: DonacionInput!): Donacion
+  actualizarDonacion(id: ID!, input: DonacionInput!): Donacion
+  eliminarDonacion(id: ID!): Boolean
+  
+  # Otras mutaciones para las demás entidades...
+}
+
+# Tipos de datos
+
+type Donacion {
+  id: ID!
+  monto: Float!
+  donante: Donante!
+  fecha: String!
+  productos: [ProductoDonado!]!
+}
+
+type Donante {
+  id: ID!
+  nombre: String!
+  email: String
+  telefono: String
+  donaciones: [Donacion!]!
+}
+
+type ProductoDonado {
+  id: ID!
+  nombre: String!
+  descripcion: String
+  cantidad: Int!
+  fechaVencimiento: String
+  donacion: Donacion!
+}
+
+type Receptor {
+  id: ID!
+  nombre: String!
+  direccion: String
+  telefono: String
+  registros: [RegistroEntrega!]!
+}
+
+type RegistroEntrega {
+  id: ID!
+  fecha: String!
+  receptor: Receptor!
+  productos: [ProductoDonado!]!
+  observaciones: String
+}
+
+# Inputs para mutaciones
+input DonacionInput {
+  monto: Float!
+  donanteId: ID!
+  fecha: String!
+}
+
+# Definir inputs para las demás entidades...

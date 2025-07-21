@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
@@ -21,3 +22,8 @@
     "java.configuration.updateBuildConfiguration": "interactive"
 }
 >>>>>>> 2d621a9 (eliminacion de proyecto dañado)
+=======
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
+}
+>>>>>>> 8902364 (Actualizacion)
