@@ -2,7 +2,7 @@ package com.bancodealimentos.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+// hola
 @Entity
 @Table(name = "donacion")
 public class Donacion {
