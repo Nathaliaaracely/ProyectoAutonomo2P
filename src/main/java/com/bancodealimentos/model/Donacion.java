@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "donacion")
 public class Donacion {
@@ -12,7 +13,7 @@ public class Donacion {
     private Long id;
 
     @Column(name = "tipo_donacion", nullable = false)
-    private String tipoDonacion; // Tipo de donación (ej. alimentos, dinero, ropa, otros)
+    private String tipoDonacion; // Tipo de donación (ej. alimentos)
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal cantidad;
