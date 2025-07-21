@@ -1,0 +1,7 @@
+com\bancodealimentos\api_gateway\model\DonacionInput.class
+com\bancodealimentos\api_gateway\resolver\DonacionResolver.class
+com\bancodealimentos\api_gateway\model\DonanteDTO.class
+com\bancodealimentos\api_gateway\config\WebConfig.class
+com\bancodealimentos\api_gateway\ApiGatewayApplication.class
+com\bancodealimentos\api_gateway\model\DonacionDTO.class
+com\bancodealimentos\api_gateway\service\DonacionService.class
