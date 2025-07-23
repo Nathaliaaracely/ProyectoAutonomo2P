@@ -4,4 +4,5 @@ C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\ban
 C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\bancodealimentos\api_gateway\model\DonacionInput.java
 C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\bancodealimentos\api_gateway\model\DonanteDTO.java
 C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\bancodealimentos\api_gateway\resolver\DonacionResolver.java
+C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\bancodealimentos\api_gateway\security\JwtUtil.java
 C:\Users\natha\Desktop\modulo_java\api-gateway\api-gateway\src\main\java\com\bancodealimentos\api_gateway\service\DonacionService.java

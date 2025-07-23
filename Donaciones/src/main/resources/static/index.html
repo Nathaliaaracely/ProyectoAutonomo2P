@@ -3,50 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Donaciones</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Banco de Alimentos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .endpoints {
+            margin-top: 30px;
+        }
+        .endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .method {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Sistema de Donaciones</h1>
+        <h1>Banco de Alimentos - API REST</h1>
+        <p>Bienvenido al sistema de gestión de donaciones del Banco de Alimentos.</p>
         
-        <div class="form-container">
-            <h2>Registrar Nueva Donación</h2>
-            <form id="donacionForm">
-                <div class="form-group">
-                    <label for="monto">Monto:</label>
-                    <input type="number" id="monto" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="donante">Donante:</label>
-                    <input type="text" id="donante" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" required>
-                </div>
-                <button type="submit">Registrar Donación</button>
-            </form>
+        <div class="endpoints">
+            <h2>Endpoints disponibles:</h2>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> /api/donantes - Listar todos los donantes
+            </div>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> /api/donaciones - Listar todas las donaciones
+            </div>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> /api/productos - Listar todos los productos donados
+            </div>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> /api/receptores - Listar todos los receptores
+            </div>
+            
+            <div class="endpoint">
+                <span class="method">GET</span> /api/entregas - Listar todos los registros de entrega
+            </div>
         </div>
-
-        <div class="table-container">
-            <h2>Historial de Donaciones</h2>
-            <table id="tablaDonaciones">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Monto</th>
-                        <th>Donante</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpoTabla">
-                    <!-- Las donaciones se cargarán aquí dinámicamente -->
-                </tbody>
-            </table>
+        
+        <div style="margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 0.9em;">
+            <p>Utiliza herramientas como Postman o cURL para interactuar con la API REST</p>
         </div>
     </div>
-
-    <script src="app.js"></script>
 </body>
 </html>

@@ -1,3 +1,5 @@
+C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\config\SecurityConfig.java
+C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\controller\AuthController.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\controller\DonacionesController.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\controller\DonantesController.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\controller\ProductosDonadosController.java
@@ -15,6 +17,9 @@ C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\repository\ProductosDonadosRepository.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\repository\ReceptoresRepository.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\repository\RegistroEntregaRepository.java
+C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\security\JwtAuthenticationEntryPoint.java
+C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\security\JwtAuthenticationFilter.java
+C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\security\JwtTokenProvider.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\service\DonacionesService.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\service\DonantesService.java
 C:\Users\natha\Desktop\modulo_java\Donaciones\src\main\java\com\bancodealimentos\service\ProductosDonadosService.java
