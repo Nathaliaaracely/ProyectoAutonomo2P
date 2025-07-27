@@ -4,6 +4,19 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-6DB33F.svg)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36.svg)](https://maven.apache.org/)
 
+## 📋 Tabla de Contenidos
+- [Descripción](#-descripción)
+- [Características Principales](#-características-principales)
+- [Requisitos Técnicos](#-requisitos-técnicos)
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Uso](#-uso)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Documentación de la API](#-documentación-de-la-api)
+- [Contribución](#-contribución)
+- [Licencia](#-licencia)
+- [Contacto](#-contacto)
+
 ## 📋 Descripción
 Módulo de gestión de donaciones para el Banco de Alimentos, desarrollado con Spring Boot 3.5.3 y Java 17. Este sistema permite administrar el ciclo completo de donaciones, desde el registro de donantes hasta el seguimiento de entregas.
 
@@ -13,7 +26,7 @@ Módulo de gestión de donaciones para el Banco de Alimentos, desarrollado con S
 - **Inventario de Productos**: Seguimiento de productos donados
 - **Control de Receptores**: Gestión de organizaciones receptoras
 - **Registro de Entregas**: Seguimiento detallado de entregas
-- **API RESTful**: Interfaz para integración con otros sistemas
+- **API GraphQL**: Interfaz moderna para consultas flexibles
 
 ## 🚀 Requisitos Técnicos
 - Java 17 o superior
@@ -27,7 +40,9 @@ Módulo de gestión de donaciones para el Banco de Alimentos, desarrollado con S
    ```bash
    git clone [URL_DEL_REPOSITORIO]
    cd Donaciones
-Configurar la base de datos Editar el archivo src/main/resources/application.properties:
+Configurar la base de datos
+Crea una base de datos MySQL llamada bancodealimentos
+Edita el archivo src/main/resources/application.properties:
 properties
 # Configuración de la base de datos
 spring.datasource.url=jdbc:mysql://localhost:3306/bancodealimentos
@@ -39,8 +54,26 @@ bash
 mvn clean install
 mvn spring-boot:run
 Acceder a la aplicación
-API REST: http://localhost:8080/api/
+Interfaz GraphiQL: http://localhost:8080/graphiql
 Consola H2 (si está habilitada): http://localhost:8080/h2-console
+🔧 Configuración
+El archivo principal de configuración es src/main/resources/application.properties:
+
+properties
+# Puerto del servidor
+server.port=8080
+
+# Configuración de base de datos (MySQL)
+spring.datasource.url=jdbc:mysql://localhost:3306/bancodealimentos
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+# H2 Database (para desarrollo)
+#spring.datasource.url=jdbc:h2:mem:testdb
+#spring.h2.console.enabled=true
+#spring.h2.console.path=/h2-console
 🏗️ Estructura del Proyecto
 Donaciones/
 ├── src/
@@ -54,32 +87,13 @@ Donaciones/
 │   │   └── resources/          # Archivos estáticos y configuración
 │   └── test/                   # Pruebas unitarias
 └── pom.xml
-🔧 Configuración
-El archivo principal de configuración es application.properties:
-
-properties
-# Puerto del servidor
-server.port=8080
-
-# Configuración de base de datos
-spring.datasource.url=jdbc:mysql://localhost:3306/bancodealimentos
-spring.datasource.username=usuario
-spring.datasource.password=contraseña
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-# H2 Database (para desarrollo)
-#spring.h2.console.enabled=true
-#spring.h2.console.path=/h2-console
-## 📚 Documentación de la API
-
+📚 Documentación de la API
 La aplicación proporciona una interfaz gráfica de GraphiQL para probar las consultas GraphQL:
 
-- **GraphiQL UI**: `http://localhost:8080/graphiql`
-
-Ejemplo de consulta para obtener donaciones:
-
-```graphql
+GraphiQL UI: http://localhost:8080/graphiql
+Ejemplos de consultas GraphQL
+Obtener todas las donaciones:
+graphql
 query {
   donaciones {
     id
@@ -94,18 +108,40 @@ query {
     }
   }
 }
+Crear una nueva donación:
+graphql
+mutation {
+  crearDonacion(donacion: {
+    fechaDonacion: "2025-07-27",
+    donanteId: 1,
+    productos: [
+      { productoId: 1, cantidad: 5 },
+      { productoId: 2, cantidad: 3 }
+    ]
+  }) {
+    id
+    mensaje
+  }
+}
+🤝 Contribución
+Haz un fork del proyecto
+Crea una rama para tu feature (git checkout -b feature/AmazingFeature)
+Haz commit de tus cambios (git commit -m 'Add some AmazingFeature')
+Haz push a la rama (git push origin feature/AmazingFeature)
+Abre un Pull Request
 📄 Licencia
-Este proyecto está bajo la Licencia MIT.
+Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
 
 📧 Contacto
 Para más información, por favor contacta a [tu correo/equipo].
 
 
 ### Mejoras realizadas:
-1. **Formato más profesional** con emojis y badges
-2. **Estructura clara** con secciones bien definidas
-3. **Instrucciones detalladas** de instalación y configuración
-4. **Información técnica precisa** basada en el pom.xml
-5. **Sección de documentación de API** con Swagger
-6. **Guía de contribución** clara
-7. **Plantilla de licencia** lista par
+
+1. **Tabla de contenidos** para facilitar la navegación.
+2. **Instrucciones más claras** en la sección de instalación.
+3. **Sección de uso** con ejemplos prácticos de consultas GraphQL.
+4. **Formato consistente** en todo el documento.
+5. **Enlaces clickeables** para acceder a las interfaces.
+6. **Mejor organización** de las secciones.
+7. **Ejemplos completos** de mutacione
