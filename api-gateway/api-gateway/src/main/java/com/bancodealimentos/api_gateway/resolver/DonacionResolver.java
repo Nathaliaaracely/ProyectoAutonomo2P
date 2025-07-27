@@ -8,52 +8,39 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class DonacionResolver {
-    
+
     private final DonacionService donacionService;
 
     @QueryMapping
-    public Flux<DonacionDTO> donaciones() {
+    public List<DonacionDTO> donaciones() {
         return donacionService.obtenerTodasLasDonaciones();
     }
 
     @QueryMapping
-    public Mono<DonacionDTO> donacion(@Argument Long id) {
+    public DonacionDTO donacion(@Argument Long id) {
         return donacionService.obtenerDonacionPorId(id);
     }
 
     @MutationMapping
-    public Mono<DonacionDTO> crearDonacion(@Argument DonacionInput input) {
-        DonacionDTO donacion = new DonacionDTO();
-        donacion.setMonto(BigDecimal.valueOf(input.getMonto()));
-        donacion.setDonanteId(input.getDonanteId());
-        donacion.setFecha(input.getFecha());
-        return donacionService.crearDonacion(donacion);
+    public DonacionDTO crearDonacion(@Argument("input") DonacionInput input) {
+        return donacionService.crearDonacion(input);
     }
 
     @MutationMapping
-    public Mono<DonacionDTO> actualizarDonacion(
+    public DonacionDTO actualizarDonacion(
             @Argument Long id,
-            @Argument DonacionInput input) {
-        DonacionDTO donacion = new DonacionDTO();
-        donacion.setId(id);
-        donacion.setMonto(BigDecimal.valueOf(input.getMonto()));
-        donacion.setDonanteId(input.getDonanteId());
-        donacion.setFecha(input.getFecha());
-        return donacionService.actualizarDonacion(id, donacion);
+            @Argument("input") DonacionInput input) {
+        return donacionService.actualizarDonacion(id, input);
     }
 
     @MutationMapping
-    public Mono<Boolean> eliminarDonacion(@Argument Long id) {
-        return donacionService.eliminarDonacion(id)
-                .thenReturn(true)
-                .onErrorReturn(false);
+    public Boolean eliminarDonacion(@Argument Long id) {
+        return donacionService.eliminarDonacion(id);
     }
 }

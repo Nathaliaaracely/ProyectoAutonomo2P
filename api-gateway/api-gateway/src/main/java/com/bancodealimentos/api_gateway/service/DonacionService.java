@@ -1,67 +1,61 @@
 package com.bancodealimentos.api_gateway.service;
 
 import com.bancodealimentos.api_gateway.model.DonacionDTO;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
+import com.bancodealimentos.api_gateway.model.DonacionInput;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-@Slf4j
+import java.util.Arrays;
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class DonacionService {
+
     private final WebClient webClient;
+    private static final String DONACIONES_SERVICE_URL = "http://donaciones-service/api/donaciones";
 
-    public DonacionService(WebClient.Builder webClientBuilder, 
-                         @Value("${donaciones.service.url}") String baseUrl) {
-        this.webClient = webClientBuilder
-            .baseUrl(baseUrl)
-            .build();
-    }
-
-    public Flux<DonacionDTO> obtenerTodasLasDonaciones() {
-        return webClient.get()
-                .uri("/donaciones")
+    public List<DonacionDTO> obtenerTodasLasDonaciones() {
+        return Arrays.asList(webClient.get()
+                .uri(DONACIONES_SERVICE_URL)
                 .retrieve()
-                .bodyToFlux(DonacionDTO.class)
-                .doOnError(error -> log.error("Error al obtener donaciones: {}", error.getMessage()));
+                .bodyToMono(DonacionDTO[].class)
+                .block());
     }
 
-    public Mono<DonacionDTO> obtenerDonacionPorId(Long id) {
+    public DonacionDTO obtenerDonacionPorId(Long id) {
         return webClient.get()
-                .uri("/donaciones/{id}", id)
+                .uri(DONACIONES_SERVICE_URL + "/{id}", id)
                 .retrieve()
                 .bodyToMono(DonacionDTO.class)
-                .doOnError(error -> log.error("Error al obtener donación con id {}: {}", id, error.getMessage()));
+                .block();
     }
 
-    public Mono<DonacionDTO> crearDonacion(DonacionDTO donacion) {
+    public DonacionDTO crearDonacion(DonacionInput input) {
         return webClient.post()
-                .uri("/donaciones")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(donacion)
+                .uri(DONACIONES_SERVICE_URL)
+                .bodyValue(input)
                 .retrieve()
                 .bodyToMono(DonacionDTO.class)
-                .doOnError(error -> log.error("Error al crear donación: {}", error.getMessage()));
+                .block();
     }
 
-    public Mono<DonacionDTO> actualizarDonacion(Long id, DonacionDTO donacion) {
+    public DonacionDTO actualizarDonacion(Long id, DonacionInput input) {
         return webClient.put()
-                .uri("/donaciones/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(donacion)
+                .uri(DONACIONES_SERVICE_URL + "/{id}", id)
+                .bodyValue(input)
                 .retrieve()
                 .bodyToMono(DonacionDTO.class)
-                .doOnError(error -> log.error("Error al actualizar donación con id {}: {}", id, error.getMessage()));
+                .block();
     }
 
-    public Mono<Void> eliminarDonacion(Long id) {
+    public Boolean eliminarDonacion(Long id) {
         return webClient.delete()
-                .uri("/donaciones/{id}", id)
+                .uri(DONACIONES_SERVICE_URL + "/{id}", id)
                 .retrieve()
-                .bodyToMono(Void.class)
-                .doOnError(error -> log.error("Error al eliminar donación con id {}: {}", id, error.getMessage()));
+                .toBodilessEntity()
+                .map(response -> response.getStatusCode().is2xxSuccessful())
+                .block();
     }
 }

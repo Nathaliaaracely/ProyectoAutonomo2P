@@ -27,11 +27,28 @@ type Mutation {
   actualizarDonacion(id: ID!, input: DonacionInput!): Donacion
   eliminarDonacion(id: ID!): Boolean
   
-  # Otras mutaciones para las demás entidades...
+  # Mutaciones para donantes
+  crearDonante(input: DonanteInput!): Donante
+  actualizarDonante(id: ID!, input: DonanteInput!): Donante
+  eliminarDonante(id: ID!): Boolean
+  
+  # Mutaciones para productos donados
+  crearProductoDonado(input: ProductoDonadoInput!): ProductoDonado
+  actualizarProductoDonado(id: ID!, input: ProductoDonadoInput!): ProductoDonado
+  eliminarProductoDonado(id: ID!): Boolean
+  
+  # Mutaciones para receptores
+  crearReceptor(input: ReceptorInput!): Receptor
+  actualizarReceptor(id: ID!, input: ReceptorInput!): Receptor
+  eliminarReceptor(id: ID!): Boolean
+  
+  # Mutaciones para registros de entrega
+  crearRegistroEntrega(input: RegistroEntregaInput!): RegistroEntrega
+  actualizarRegistroEntrega(id: ID!, input: RegistroEntregaInput!): RegistroEntrega
+  eliminarRegistroEntrega(id: ID!): Boolean
 }
 
 # Tipos de datos
-
 type Donacion {
   id: ID!
   monto: Float!
@@ -80,4 +97,29 @@ input DonacionInput {
   fecha: String!
 }
 
-# Definir inputs para las demás entidades...
+input DonanteInput {
+  nombre: String!
+  email: String
+  telefono: String
+}
+
+input ProductoDonadoInput {
+  nombre: String!
+  descripcion: String
+  cantidad: Int!
+  fechaVencimiento: String
+  donacionId: ID!
+}
+
+input ReceptorInput {
+  nombre: String!
+  direccion: String
+  telefono: String
+}
+
+input RegistroEntregaInput {
+  fecha: String!
+  receptorId: ID!
+  productosIds: [ID!]!
+  observaciones: String
+}

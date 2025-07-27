@@ -4,12 +4,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class DonanteDTO {
+public class ReceptorDTO {
     private Long id;
     private String nombre;
-    private String email;
+    private String direccion;
     private String telefono;
-    private List<DonacionDTO> donaciones;
-    
-    // Constructor, getters y setters son generados por Lombok con @Data
+    private List<RegistroEntregaDTO> registros;
 }
