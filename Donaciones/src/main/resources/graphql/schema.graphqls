@@ -1,0 +1,130 @@
+# Donantes
+type Donante {
+    id: ID!
+    nombre: String
+    email: String
+    telefono: String
+    direccion: String
+}
+
+# Receptores
+type Receptor {
+    id: ID!
+    nombre: String
+    email: String
+    telefono: String
+    direccion: String
+}
+
+# Donaciones
+type Donacion {
+    id: ID!
+    fechaDonacion: String
+    tipoDonacion: String
+    descripcion: String
+    cantidad: Float
+    unidadMedida: String
+    estado: String
+    fechaVencimiento: String
+    donante: Donante
+    receptor: Receptor
+}
+
+# ProductoDonado
+type ProductoDonado {
+    id: ID!
+    nombre: String
+    cantidad: Float
+    unidadMedida: String
+    donacionId: ID!
+}
+
+# RegistroEntrega
+type RegistroEntrega {
+    id: ID!
+    fechaEntrega: String
+    donacionId: ID!
+    receptorId: ID!
+    observaciones: String
+}
+
+# Consultas
+type Query {
+    # Donaciones
+    donaciones: [Donacion]
+    donacion(id: ID!): Donacion
+    donacionesPorTipo(tipo: String!): [Donacion]
+    donacionesPorDonante(donanteId: ID!): [Donacion]
+    donacionesPorReceptor(receptorId: ID!): [Donacion]
+
+    # Donantes
+    donantes: [Donante]
+    donante(id: ID!): Donante
+
+    # Receptores
+    receptores: [Receptor]
+    receptor(id: ID!): Receptor
+
+    # Productos Donados
+    productosDonados: [ProductoDonado]
+    productoDonado(id: ID!): ProductoDonado
+
+    # Registro Entregas
+    registrosEntrega: [RegistroEntrega]
+    registroEntrega(id: ID!): RegistroEntrega
+}
+
+# Mutaciones
+type Mutation {
+    # Donaciones
+    crearDonacion(
+        fechaDonacion: String!
+        tipoDonacion: String!
+        descripcion: String
+        cantidad: Float
+        unidadMedida: String
+        donanteId: ID
+        receptorId: ID
+        fechaVencimiento: String
+        estado: String
+    ): Donacion
+
+    actualizarDonacion(
+        id: ID!
+        fechaDonacion: String
+        tipoDonacion: String
+        descripcion: String
+        cantidad: Float
+        unidadMedida: String
+        donanteId: ID
+        receptorId: ID
+        fechaVencimiento: String
+        estado: String
+    ): Donacion
+
+    eliminarDonacion(id: ID!): Boolean
+
+    # Donantes
+    crearDonante(nombre: String!, correo: String, telefono: String, direccion: String): Donante
+    actualizarDonante(id: ID!, nombre: String, correo: String, telefono: String, direccion: String): Donante
+    eliminarDonante(id: ID!): Boolean
+
+    # Receptores
+    crearReceptor(nombre: String!, correo: String, telefono: String, direccion: String): Receptor
+    actualizarReceptor(id: ID!, nombre: String, correo: String, telefono: String, direccion: String): Receptor
+    eliminarReceptor(id: ID!): Boolean
+
+    # Productos Donados
+    crearProductoDonado(nombre: String!, cantidad: Float!, unidadMedida: String!, donacionId: ID!): ProductoDonado
+    eliminarProductoDonado(id: ID!): Boolean
+
+    # Registro Entregas
+    crearRegistroEntrega(
+        fechaEntrega: String!,
+        donacionId: ID!,
+        receptorId: ID!,
+        observaciones: String
+    ): RegistroEntrega
+
+    eliminarRegistroEntrega(id: ID!): Boolean
+}
