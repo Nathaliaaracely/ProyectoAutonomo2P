@@ -17,12 +17,12 @@ public class ConnectionTester implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try {
             String result = jdbcTemplate.queryForObject(
-                "SELECT ' Conexión exitosa a la base de datos'", 
+                "SELECT '✅ Conexión exitosa a la base de datos'", 
                 String.class
             );
             System.out.println(result);
         } catch (Exception e) {
-            System.err.println(" Error de conexión: " + e.getMessage());
+            System.err.println("❌ Error de conexión: " + e.getMessage());
             e.printStackTrace();
         }
     }

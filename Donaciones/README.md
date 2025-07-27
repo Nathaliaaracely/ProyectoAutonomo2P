@@ -1,147 +1,116 @@
-# Módulo de Donaciones - Banco de Alimentos
-
-[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-6DB33F.svg)](https://spring.io/projects/spring-boot)
-[![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36.svg)](https://maven.apache.org/)
-
-## 📋 Tabla de Contenidos
-- [Descripción](#-descripción)
-- [Características Principales](#-características-principales)
-- [Requisitos Técnicos](#-requisitos-técnicos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Uso](#-uso)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Documentación de la API](#-documentación-de-la-api)
-- [Contribución](#-contribución)
-- [Licencia](#-licencia)
-- [Contacto](#-contacto)
+# 🍽️ Sistema de Gestión de Donaciones - Banco de Alimentos
 
 ## 📋 Descripción
-Módulo de gestión de donaciones para el Banco de Alimentos, desarrollado con Spring Boot 3.5.3 y Java 17. Este sistema permite administrar el ciclo completo de donaciones, desde el registro de donantes hasta el seguimiento de entregas.
+Sistema backend para la gestión de donaciones de alimentos, desarrollado con Spring Boot 3.5.3 y GraphQL. Permite administrar donantes, receptores, donaciones y seguimiento de entregas.
 
-## ✨ Características Principales
-- **Gestión de Donaciones**: Registro y seguimiento de donaciones
-- **Administración de Donantes**: Control de información de donantes
-- **Inventario de Productos**: Seguimiento de productos donados
-- **Control de Receptores**: Gestión de organizaciones receptoras
-- **Registro de Entregas**: Seguimiento detallado de entregas
-- **API GraphQL**: Interfaz moderna para consultas flexibles
+## 🚀 Características Principales
+- API GraphQL para consultas flexibles
+- Autenticación básica
+- Integración con PostgreSQL
+- Documentación interactiva con GraphiQL
+- Pool de conexiones configurable
 
-## 🚀 Requisitos Técnicos
+## 🛠️ Requisitos Previos
 - Java 17 o superior
 - Maven 3.6+
-- Base de datos compatible con JPA (MySQL, PostgreSQL, H2, etc.)
-- Spring Boot 3.5.3
+- PostgreSQL 12+
+- Git
 
-## 🛠️ Instalación
+## 🏗️ Estructura del Proyecto
+Donaciones/ ├── src/ │ ├── main/ │ │ ├── java/com/bancodealimentos/ │ │ │ ├── config/ # Configuraciones (seguridad, GraphQL, etc.) │ │ │ ├── controller/ # Controladores REST │ │ │ ├── graphql/ # Resolvers y lógica GraphQL │ │ │ ├── model/ # Entidades JPA │ │ │ ├── repository/ # Repositorios de datos │ │ │ └── service/ # Lógica de negocio │ │ └── resources/ │ │ ├── graphql/ # Esquemas GraphQL │ │ └── application.properties │ └── test/ # Pruebas └── pom.xml
 
-1. **Clonar el repositorio**
-   ```bash
-   git clone [URL_DEL_REPOSITORIO]
-   cd Donaciones
-Configurar la base de datos
-Crea una base de datos MySQL llamada bancodealimentos
-Edita el archivo src/main/resources/application.properties:
+
+## ⚙️ Configuración Inicial
+
+### 1. Clonar el repositorio
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd Donaciones
+2. Configuración de la Base de Datos
+Crear una base de datos PostgreSQL
+Configurar las credenciales en 
+src/main/resources/application.properties
+:
 properties
-# Configuración de la base de datos
-spring.datasource.url=jdbc:mysql://localhost:3306/bancodealimentos
+spring.datasource.url=jdbc:postgresql://localhost:5432/tu_base_de_datos
 spring.datasource.username=tu_usuario
 spring.datasource.password=tu_contraseña
-spring.jpa.hibernate.ddl-auto=update
-Compilar y ejecutar
+3. Variables de Entorno Recomendadas
+Para mayor seguridad, se recomienda usar variables de entorno:
+
 bash
-mvn clean install
+export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/tu_base_de_datos
+export SPRING_DATASOURCE_USERNAME=tu_usuario
+export SPRING_DATASOURCE_PASSWORD=tu_contraseña
+🚀 Ejecución del Proyecto
+Modo Desarrollo
+bash
 mvn spring-boot:run
-Acceder a la aplicación
-Interfaz GraphiQL: http://localhost:8080/graphiql
-Consola H2 (si está habilitada): http://localhost:8080/h2-console
-🔧 Configuración
-El archivo principal de configuración es src/main/resources/application.properties:
-
-properties
-# Puerto del servidor
-server.port=8080
-
-# Configuración de base de datos (MySQL)
-spring.datasource.url=jdbc:mysql://localhost:3306/bancodealimentos
-spring.datasource.username=tu_usuario
-spring.datasource.password=tu_contraseña
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-# H2 Database (para desarrollo)
-#spring.datasource.url=jdbc:h2:mem:testdb
-#spring.h2.console.enabled=true
-#spring.h2.console.path=/h2-console
-🏗️ Estructura del Proyecto
-Donaciones/
-├── src/
-│   ├── main/
-│   │   ├── java/com/bancodealimentos/
-│   │   │   ├── config/         # Configuraciones de Spring
-│   │   │   ├── controller/     # Controladores REST
-│   │   │   ├── model/          # Entidades JPA
-│   │   │   ├── repository/     # Repositorios de datos
-│   │   │   └── service/        # Lógica de negocio
-│   │   └── resources/          # Archivos estáticos y configuración
-│   └── test/                   # Pruebas unitarias
-└── pom.xml
+Construir y Ejecutar
+bash
+mvn clean package
+java -jar target/Donaciones-0.0.1-SNAPSHOT.jar
+🌐 Acceso a la Aplicación
+Aplicación: http://localhost:8080
+GraphiQL: http://localhost:8080/graphiql
+Usuario: Nathalia
+Contraseña: aracely123321
 📚 Documentación de la API
-La aplicación proporciona una interfaz gráfica de GraphiQL para probar las consultas GraphQL:
+Autenticación
+La API usa autenticación HTTP básica. Incluye las credenciales en cada solicitud:
 
-GraphiQL UI: http://localhost:8080/graphiql
-Ejemplos de consultas GraphQL
+Usuario: Nathalia
+Contraseña: aracely123321
+Ejemplos de Consultas GraphQL
 Obtener todas las donaciones:
+
 graphql
 query {
   donaciones {
     id
-    fechaDonacion
-    donante {
-      nombre
-      contacto
-    }
-    productos {
-      nombre
-      cantidad
-    }
+    tipoDonacion
+    descripcion
+    donante { nombre }
   }
 }
-Crear una nueva donación:
+Crear una donación:
+
 graphql
 mutation {
-  crearDonacion(donacion: {
+  crearDonacionConInput(input: {
     fechaDonacion: "2025-07-27",
-    donanteId: 1,
-    productos: [
-      { productoId: 1, cantidad: 5 },
-      { productoId: 2, cantidad: 3 }
-    ]
+    tipoDonacion: "Alimentos",
+    descripcion: "Ejemplo de donación",
+    cantidad: 5.0,
+    unidadMedida: "kg",
+    estado: PENDIENTE
   }) {
     id
-    mensaje
+    tipoDonacion
   }
 }
+🔒 Seguridad
+La aplicación incluye autenticación básica
+Las contraseñas nunca se almacenan en texto plano
+Se recomienda usar HTTPS en producción
+🛠️ Configuración Avanzada
+Pool de Conexiones
+properties
+# Tamaño del pool de conexiones
+spring.datasource.hikari.maximum-pool-size=5
+spring.datasource.hikari.minimum-idle=2
+
+# Timeouts
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.idle-timeout=600000
+JPA/Hibernate
+properties
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 🤝 Contribución
 Haz un fork del proyecto
-Crea una rama para tu feature (git checkout -b feature/AmazingFeature)
-Haz commit de tus cambios (git commit -m 'Add some AmazingFeature')
-Haz push a la rama (git push origin feature/AmazingFeature)
+Crea una rama: git checkout -b feature/nueva-funcionalidad
+Haz commit: git commit -m 'Añadir nueva funcionalidad'
+Haz push: git push origin feature/nueva-funcionalidad
 Abre un Pull Request
-📄 Licencia
-Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
-
-📧 Contacto
-Para más información, por favor contacta a [tu correo/equipo].
-
-
-### Mejoras realizadas:
-
-1. **Tabla de contenidos** para facilitar la navegación.
-2. **Instrucciones más claras** en la sección de instalación.
-3. **Sección de uso** con ejemplos prácticos de consultas GraphQL.
-4. **Formato consistente** en todo el documento.
-5. **Enlaces clickeables** para acceder a las interfaces.
-6. **Mejor organización** de las secciones.
-7. **Ejemplos completos** de mutacione

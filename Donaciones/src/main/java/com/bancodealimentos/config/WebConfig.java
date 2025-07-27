@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.lang.NonNull;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public CorsFilter corsFilter() {
@@ -35,5 +38,16 @@ public class WebConfig {
         source.registerCorsConfiguration("/**", config);
         
         return new CorsFilter(source);
+    }
+
+    @Override
+    public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
+        // Habilitar GraphiQL
+        registry.addResourceHandler("/graphiql/**")
+                .addResourceLocations("classpath:/graphiql/");
+                
+        // Asegurar que los recursos estáticos se sirvan correctamente
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
     }
 }

@@ -1,4 +1,24 @@
-# Donantes
+""" Enum para el estado de una donación """
+enum EstadoDonacion {
+    PENDIENTE
+    ENTREGADA
+    CANCELADA
+}
+
+""" Entrada para crear una nueva donación """
+input DonacionInput {
+    fechaDonacion: String!
+    tipoDonacion: String!
+    descripcion: String
+    cantidad: Float
+    unidadMedida: String
+    donanteId: ID
+    receptorId: ID
+    estado: EstadoDonacion
+    fechaVencimiento: String
+}
+
+""" Tipo que representa un Donante """
 type Donante {
     id: ID!
     nombre: String
@@ -7,7 +27,7 @@ type Donante {
     direccion: String
 }
 
-# Receptores
+""" Tipo que representa un Receptor """
 type Receptor {
     id: ID!
     nombre: String
@@ -16,7 +36,7 @@ type Receptor {
     direccion: String
 }
 
-# Donaciones
+""" Tipo que representa una Donación """
 type Donacion {
     id: ID!
     fechaDonacion: String
@@ -24,13 +44,13 @@ type Donacion {
     descripcion: String
     cantidad: Float
     unidadMedida: String
-    estado: String
+    estado: EstadoDonacion
     fechaVencimiento: String
     donante: Donante
     receptor: Receptor
 }
 
-# ProductoDonado
+""" Producto donado dentro de una donación """
 type ProductoDonado {
     id: ID!
     nombre: String
@@ -39,7 +59,7 @@ type ProductoDonado {
     donacionId: ID!
 }
 
-# RegistroEntrega
+""" Registro de entrega de una donación a un receptor """
 type RegistroEntrega {
     id: ID!
     fechaEntrega: String
@@ -48,7 +68,7 @@ type RegistroEntrega {
     observaciones: String
 }
 
-# Consultas
+""" Consultas disponibles en el sistema """
 type Query {
     # Donaciones
     donaciones: [Donacion]
@@ -69,25 +89,15 @@ type Query {
     productosDonados: [ProductoDonado]
     productoDonado(id: ID!): ProductoDonado
 
-    # Registro Entregas
+    # Registros de Entrega
     registrosEntrega: [RegistroEntrega]
     registroEntrega(id: ID!): RegistroEntrega
 }
 
-# Mutaciones
+""" Operaciones para crear, actualizar y eliminar recursos """
 type Mutation {
     # Donaciones
-    crearDonacion(
-        fechaDonacion: String!
-        tipoDonacion: String!
-        descripcion: String
-        cantidad: Float
-        unidadMedida: String
-        donanteId: ID
-        receptorId: ID
-        fechaVencimiento: String
-        estado: String
-    ): Donacion
+    crearDonacionConInput(input: DonacionInput!): Donacion
 
     actualizarDonacion(
         id: ID!
@@ -99,30 +109,62 @@ type Mutation {
         donanteId: ID
         receptorId: ID
         fechaVencimiento: String
-        estado: String
+        estado: EstadoDonacion
     ): Donacion
 
     eliminarDonacion(id: ID!): Boolean
 
     # Donantes
-    crearDonante(nombre: String!, correo: String, telefono: String, direccion: String): Donante
-    actualizarDonante(id: ID!, nombre: String, correo: String, telefono: String, direccion: String): Donante
+    crearDonante(
+        nombre: String!
+        email: String
+        telefono: String
+        direccion: String
+    ): Donante
+
+    actualizarDonante(
+        id: ID!
+        nombre: String
+        email: String
+        telefono: String
+        direccion: String
+    ): Donante
+
     eliminarDonante(id: ID!): Boolean
 
     # Receptores
-    crearReceptor(nombre: String!, correo: String, telefono: String, direccion: String): Receptor
-    actualizarReceptor(id: ID!, nombre: String, correo: String, telefono: String, direccion: String): Receptor
+    crearReceptor(
+        nombre: String!
+        email: String
+        telefono: String
+        direccion: String
+    ): Receptor
+
+    actualizarReceptor(
+        id: ID!
+        nombre: String
+        email: String
+        telefono: String
+        direccion: String
+    ): Receptor
+
     eliminarReceptor(id: ID!): Boolean
 
     # Productos Donados
-    crearProductoDonado(nombre: String!, cantidad: Float!, unidadMedida: String!, donacionId: ID!): ProductoDonado
+    crearProductoDonado(
+        nombre: String!
+        cantidad: Float!
+        unidadMedida: String!
+        donacionId: ID!
+    ): ProductoDonado
+
     eliminarProductoDonado(id: ID!): Boolean
 
-    # Registro Entregas
+    # Registros de Entrega
     crearRegistroEntrega(
-        fechaEntrega: String!,
-        donacionId: ID!,
-        receptorId: ID!,
+        fechaEntrega: String!
+        donacionId: ID!
+        receptorId: ID!
         observaciones: String
     ): RegistroEntrega
 
