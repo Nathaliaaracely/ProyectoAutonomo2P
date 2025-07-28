@@ -114,3 +114,75 @@ Crea una rama: git checkout -b feature/nueva-funcionalidad
 Haz commit: git commit -m 'Añadir nueva funcionalidad'
 Haz push: git push origin feature/nueva-funcionalidad
 Abre un Pull Request
+
+## 🔄 Mapeo de Tipos y Consideraciones
+
+### Tipos de Datos
+
+| Entidad JPA | Tipo GraphQL | Notas |
+|-------------|--------------|-------|
+| `Donacion` | `Donacion` | La entidad principal de donaciones |
+| `Donante` | `Donante` | Información de los donantes |
+| `Receptor` | `Receptor` | Información de los receptores |
+| `LocalDate` | `String` | Formato: `YYYY-MM-DD` (ISO-8601) |
+| `EstadoDonacion` (enum) | `EstadoDonacion` | Valores: `PENDIENTE`, `ENTREGADA`, `CANCELADA` |
+| `Double` | `Float` | Números decimales |
+
+### Convenciones de Nombres
+
+- **JPA**: Usa nombres en plural para las colecciones (ej: `Donaciones`)
+- **GraphQL**: Usa nombres en singular para los tipos (ej: `Donacion`)
+- **Campos**: Se usa `camelCase` en ambos lados
+
+### Conversiones Automáticas
+
+1. **Fechas**: 
+   - De JPA a GraphQL: `LocalDate` → `String` (formato ISO-8601)
+   - De GraphQL a JPA: `String` → `LocalDate` (validación de formato)
+
+2. **Enums**:
+   - Se validan contra los valores permitidos
+   - Se convierten a mayúsculas automáticamente
+
+3. **Relaciones**:
+   - Las relaciones `@ManyToOne` se mapean directamente a tipos anidados
+   - Las relaciones `@OneToMany` requieren resolvers explícitos
+
+### Validaciones
+
+| Campo | Validación |
+|-------|------------|
+| `fechaDonacion` | Requerida, formato YYYY-MM-DD |
+| `tipoDonacion` | Requerido, no vacío |
+| `estado` | Opcional, por defecto `PENDIENTE` |
+| `cantidad` | Debe ser positivo si se especifica |
+
+### Ejemplo de Mapeo
+
+```graphql
+# Consulta GraphQL
+query {
+  donacion(id: 1) {
+    id
+    fechaDonacion  # String en formato YYYY-MM-DD
+    tipoDonacion
+    estado         # Enum: PENDIENTE, ENTREGADA, CANCELADA
+    donante {      # Relación ManyToOne
+      id
+      nombre
+    }
+  }
+}
+```
+
+### Consideraciones de Rendimiento
+
+1. **N+1**: Las relaciones `@ManyToOne` con `FetchType.LAZY` requieren cuidado para evitar el problema N+1
+2. **Batch Loading**: Considerar implementar DataLoader para optimizar consultas anidadas
+3. **Caché**: Las consultas frecuentes pueden beneficiarse de la caché de segundo nivel
+
+### Próximos Pasos
+
+1. Implementar pruebas unitarias para los resolvers
+2. Añadir documentación de la API con ejemplos
+3. Configurar validaciones adicionales según reglas de negocio
