@@ -27,17 +27,18 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/",
                     "/static/**",
+                    "/ws/**",
+                    "/topic/**",
+                    "/socket.io/**",
                     "/graphql",
                     "/graphql/**",
                     "/graphiql",
                     "/graphiql/**"
                 ).permitAll()
-                .requestMatchers(
-                    "/api/**"
-                ).hasRole("USER")
+                .requestMatchers("/api/**").hasRole("USER")
                 .anyRequest().authenticated()
             )
-            .csrf(csrf -> csrf.disable())  // Deshabilitado para simplificar, pero deberías configurarlo correctamente en producción
+            .csrf(csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
             .formLogin(Customizer.withDefaults());
 

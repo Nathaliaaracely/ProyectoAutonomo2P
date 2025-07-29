@@ -3,7 +3,9 @@ package com.bancodealimentos.controller;
 import com.bancodealimentos.model.Receptores;
 import com.bancodealimentos.service.ReceptoresService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.bancodealimentos.websocket.NotificacionService;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,26 +14,38 @@ import java.util.Optional;
 @RequestMapping("/api/receptores")
 public class ReceptoresController {
     @Autowired
-private ReceptoresService receptoresService;
+    private ReceptoresService receptoresService;
 
-@GetMapping
-public List<Receptores> getAll() {
-    return receptoresService.getAll();
-}
+    @Autowired
+    private NotificacionService notificacionService;
+    
 
-@GetMapping("/{id}")
-public Optional<Receptores> getById(@PathVariable Long id) {
-    return receptoresService.getById(id);
-}
+    @GetMapping
+    public List<Receptores> getAll() {
+        return receptoresService.getAll();
+    }
 
-@PostMapping
-public Receptores save(@RequestBody Receptores receptor) {
-    return receptoresService.save(receptor);
-}
+    @GetMapping("/{id}")
+    public ResponseEntity<Receptores> getById(@PathVariable Long id) {
+        return receptoresService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-@DeleteMapping("/{id}")
-public void delete(@PathVariable Long id) {
-    receptoresService.delete(id);
-}
+    @PostMapping
+    public ResponseEntity<Receptores> save(@RequestBody Receptores receptor) {
+        Receptores saved = receptoresService.save(receptor);
+        notificacionService.notificarReceptorCreado(saved);
+        return ResponseEntity.ok(saved);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (receptoresService.delete(id)) {
+            notificacionService.notificarReceptorEliminado(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

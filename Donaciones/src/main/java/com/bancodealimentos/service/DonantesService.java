@@ -5,6 +5,7 @@ import com.bancodealimentos.repository.DonantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.bancodealimentos.websocket.NotificacionService;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class DonantesService {
     
     @Autowired
     private DonantesRepository donantesRepository;
+
+    @Autowired
+    private NotificacionService notificacionService;
     
     public List<Donantes> getAll() {
         return donantesRepository.findAll();
@@ -45,7 +49,16 @@ public class DonantesService {
         return donantesRepository.save(donante);
     }
     
-    public void delete(Long id) {
-        donantesRepository.deleteById(id);
+    public boolean delete(Long id) {
+        try {
+            if (donantesRepository.existsById(id)) {
+                donantesRepository.deleteById(id);
+                notificacionService.notificarDonanteEliminado(id);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
